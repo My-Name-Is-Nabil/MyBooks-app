@@ -1,9 +1,13 @@
 //Stack Overflow
 export function getUserBooks() {
-    return localStorage.getItem('userBooks') || { currentlyReading: [], wantToRead: [], read: [] }; 
+    if (localStorage.getItem('userBooks'))
+        return JSON.parse(localStorage.getItem('userBooks'));
+    else{
+        localStorage.setItem('userBooks', JSON.stringify({ currentlyReading: [], wantToRead: [], read: [] }));        
+        return JSON.parse(localStorage.getItem('userBooks'));
+    }
 }
 
 export function setUserBooks( userBooks ) {
-    localStorage.setItem( 'userBooks', userBooks );
-    this.setState( { userBooks: userBooks } );
+    localStorage.setItem('userBooks', JSON.stringify(userBooks));
 }

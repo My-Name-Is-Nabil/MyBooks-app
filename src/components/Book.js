@@ -8,9 +8,9 @@ export default function Book(props){
       <div className="book-shelf-changer">
         <select>
           <option value="move" disabled>Move to...</option>
-          <option value="currentlyReading">Currently Reading</option>
-          <option value="wantToRead">Want to Read</option>
-          <option value="read">Read</option>
+          <option value="currentlyReading" onClick={()=>props.addToCurrentlyReading({name:props.name, author:props.author,imageURL:props.imageURL})}>Currently Reading</option>
+          <option value="wantToRead" onClick={()=>props.addToWantToRead({name:props.name, author:props.author,imageURL:props.imageURL})}>Want to Read</option>
+          <option value="read" onClick={()=>props.addToRead({name:props.name, author:props.author,imageURL:props.imageURL})}>Read</option>
           <option value="none">None</option>
         </select>
       </div>

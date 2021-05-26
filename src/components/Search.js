@@ -13,7 +13,6 @@ export default class SearchBar extends React.Component{
             query = query.trim();
             if (query !== ''){
                 search(query).then( books => {
-                    console.log(books);
                     if (books && Array.isArray(books) && books.length > 0)
                         this.setState({ books: books})
                     else
@@ -37,9 +36,9 @@ export default class SearchBar extends React.Component{
         return '../image-not-found.svg';
     }
     render(){ 
-        const renderBooks = books =>{
-                return books.map( book => <Book key={book.id} name={`Title: ${book.title}`} author={`Authors: ${this.getBookAuthors(book)}`} imageURL={this.getBookImage(book)}></Book> )
-        }
+        const renderBooks = books => {
+            return books.map( book => <Book  addToCurrentlyReading={this.props.addToCurrentlyReading} addToWantToRead={this.props.addToWantToRead} addToRead={this.props.addToRead} key={book.id} name={`Title: ${book.title}`} author={`Authors: ${this.getBookAuthors(book)}`} imageURL={this.getBookImage(book)}></Book> )
+        };
         return(
         <div className="search-books">
             <div className="search-books-bar">
