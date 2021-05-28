@@ -8,22 +8,17 @@ import { Link, Route } from 'react-router-dom';
 import { getUserBooks, setUserBooks } from './getUserBooks';
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
     userBooks: getUserBooks(),
   };
   checkForBook = ( books, book ) => {
     for(let i = 0; i < books.length; i++){
-      if ( books[i].name === book.name && books[i].author === book.author )
+      if ( books[i].bookId === book.bookId || books[i].bookId === book.id )
         return true;
     }
     return false; 
   };
   addToCurrentlyReading = book => {
+    book.section = 'currentlyReading';
     this.setState( prevState =>{
       const userBooks = prevState.userBooks;
       if (this.checkForBook(userBooks.read, book))
@@ -38,6 +33,7 @@ class BooksApp extends React.Component {
     })
   };
   addToWantToRead = book =>{
+    book.section = 'wantToRead';
     this.setState(prevState => {
       const userBooks = prevState.userBooks;
       if (this.checkForBook(userBooks.read, book))
@@ -52,6 +48,7 @@ class BooksApp extends React.Component {
     })
   };
   addToRead = book =>{
+    book.section = 'read';
     this.setState( prevState =>{
       const userBooks = prevState.userBooks;
       if (this.checkForBook(userBooks.currentlyReading, book))
@@ -65,12 +62,21 @@ class BooksApp extends React.Component {
       setUserBooks(this.state.userBooks);
     });
   };
+  determineSection = book =>{
+    console.log(this.state.userBooks);
+    if (this.checkForBook( this.state.userBooks.currentlyReading, book ))
+        return 'currentlyReading';
+    if (this.checkForBook( this.state.userBooks.wantToRead, book ))
+        return 'wantToRead';
+    if (this.checkForBook( this.state.userBooks.read, book ))
+        return 'read';
+    return '';
+  };
   render() {
-    console.log(this.state);
     return (
       <div className="app">
         <Route path="/search" exact>
-          <Search addToCurrentlyReading={this.addToCurrentlyReading} addToWantToRead={this.addToWantToRead} addToRead={this.addToRead}></Search>
+          <Search determineSection={this.determineSection} addToCurrentlyReading={this.addToCurrentlyReading} addToWantToRead={this.addToWantToRead} addToRead={this.addToRead}></Search>
         </Route>
         <Route path="/" exact>
           <div className="list-books">

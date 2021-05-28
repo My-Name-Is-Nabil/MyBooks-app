@@ -185,6 +185,10 @@ button:active {
   cursor: pointer;
 }
 
+.highlight-section{
+  background-color:#ccc;
+}
+
 /* book cover */
 
 .book-cover {
